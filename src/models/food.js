@@ -5,7 +5,7 @@ const FOOD_SCHEMA = new mongoose.Schema({
 
     id: {type: mongoose.Schema.Types.ObjectId},
     brand: {type: String, required: true},
-    kg: {type: String, required: true},
+    kg: {type: Decimal128, required: true},
     price: {type: Decimal128, required: true},
     price_kg: {type: Decimal128, required: true}
 }, {versionKey: false});

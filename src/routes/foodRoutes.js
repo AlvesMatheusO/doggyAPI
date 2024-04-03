@@ -10,5 +10,7 @@ ROUTES.put("/food/:id", foodController.editFood);
 ROUTES.delete("/food/:id", foodController.deleteFood);
 ROUTES.get("/food/:id", foodController.getFoodById); 
 
-ROUTES.get("/calculate", functionController.sumByKg)
+ROUTES.get("/calculateKg", functionController.sumByKg);
+ROUTES.get("/calculatePrice", functionController.sumByPrice);
+
 export default ROUTES;
