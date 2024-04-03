@@ -41,6 +41,16 @@ class FoodController {
         }
     }
 
+    static async getFoodById(req, res) {
+        try {
+            const id = req.params.id;
+            const listFood = await food.findById(id);
+            res.status(200).json(listFood)
+        } catch (error) {
+            res.status(500).json({ message: `${error.message} - falha na requisição da ração` })
+        }
+    }
+
 
 }
 
