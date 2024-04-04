@@ -1,5 +1,5 @@
 import { Decimal128 } from "mongodb";
-import mongoose, { version } from "mongoose";
+import mongoose from "mongoose";
 
 const FOOD_SCHEMA = new mongoose.Schema({
 
