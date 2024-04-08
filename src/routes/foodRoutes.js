@@ -5,7 +5,7 @@ import functionController from "../controllers/functionController.js";
 const ROUTES = express.Router();
 
 ROUTES.post("/food", foodController.createFood);
-ROUTES.get("/foods", foodController.getFoods);
+ROUTES.get("/food", foodController.getFoods);
 ROUTES.put("/food/:id", foodController.editFood);
 ROUTES.delete("/food/:id", foodController.deleteFood);
 ROUTES.get("/food/:id", foodController.getFoodById); 
