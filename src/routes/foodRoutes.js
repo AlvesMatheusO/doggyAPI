@@ -13,4 +13,6 @@ ROUTES.get("/food/:id", foodController.getFoodById);
 ROUTES.get("/calculateKg", functionController.sumByKg);
 ROUTES.get("/calculatePrice", functionController.sumByPrice);
 
+ROUTES.get("/weight", functionController.weightPerMonth);
+
 export default ROUTES;
