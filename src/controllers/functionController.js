@@ -46,44 +46,76 @@ class functionController {
         const year = `${today.getFullYear()}`;
     }
 
-    static async spentPerMonth() {
-
-        const months = [
-            "Janeiro",
-            "Fevereiro",
-            "Março",
-            "Abril",
-            "Maio",
-            "Junho",
-            "Julho",
-            "Agosto",
-            "Setembro",
-            "Outubro",
-            "Novembro",
-            "Dezembro"];
-
-        //get all foods
+    static async monthNumber() {
+        let nameMonth;
         const purchases = await food.find({});
-        let monthSpent = 0.0;
-
-        console.log(purchases)
 
         purchases.forEach((purchase) => {
-
             const fullDate = new Date(purchase.date);
-            const year = fullDate.getFullYear();
             const month = fullDate.getDay() + 1;
 
-            console.log(fullDate);
-            console.log(year);
-            console.log(month);
+            if (month == 1) {
+                nameMonth == "janeiro"
+            } else if (month == 2) {
+                nameMonth == "fevereiro"
+            } else if (month == 3) {
+                nameMonth == "março"
+            } else if (month == 4) {
+                nameMonth == "abril"
+            } else if (month == 5) {
+                nameMonth == "maio"
+            } else if (month == 6) {
+                nameMonth == "junho"
+            } else if (month == 7) {
+                nameMonth == "julho"
+            } else if (month == 8) {
+                nameMonth == "agosto"
+            } else if (month == 9) {
+                nameMonth == "setembro"
+            } else if (month == 10) {
+                nameMonth == "outubro"
+            } else if (month == 11) {
+                nameMonth == "novembro"
+            } else if (month == 12) {
+                nameMonth == "dezembro"
+            }
 
-            console.log(purchase.kg);
-            monthSpent += parseFloat(purchase.price);
+            return nameMonth
         });
+    }
+
+    static async spentPerMonth(res) {
+
+        try {
+
+            const monthsArray = {};
+            const purchases = await food.find({});
+            const sum = 0;
 
 
-        console.log(monthSpent.toFixed(2));
+
+            purchases.forEach((purchase) => {
+                const today = new Date(purchase.date);
+
+                const day = today.getDate();
+                const month = `${today.getDay() + 1}`;
+                const year = `${today.getFullYear()}`;
+
+                if (!monthsArray[month]) {
+                    monthsArray[month] = 0;
+                }
+                monthsArray[month]  += parseFloat(purchase.price);
+
+                
+            });
+
+            console.log(monthsArray)
+
+            res.status(200).json(monthsArray)
+        } catch (error) {
+
+        }
+
 
     }
 }
