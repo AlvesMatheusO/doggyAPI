@@ -42,12 +42,12 @@ class functionController {
         const today = new Date();
 
         const day = today.getDate();
-        const month = (day.getMonth() + 1);
-        const year = day.getFullYear();
+        const month = `${today.getMonth() + 1}`;
+        const year = `${today.getFullYear()}`;
     }
 
-    static async weightPerMonth() {
-        const weightMonth = {};
+    static async spentPerMonth() {
+
         const months = [
             "Janeiro",
             "Fevereiro",
@@ -62,31 +62,29 @@ class functionController {
             "Novembro",
             "Dezembro"];
 
+        //get all foods
         const purchases = await food.find({});
+        let monthSpent = 0.0;
+
+        console.log(purchases)
 
         purchases.forEach((purchase) => {
+
             const fullDate = new Date(purchase.date);
             const year = fullDate.getFullYear();
-            const month = fullDate.getMonth();
+            const month = fullDate.getDay() + 1;
 
+            console.log(fullDate);
+            console.log(year);
+            console.log(month);
 
-            if (year == 2024) {
-                if (!weightMonth[month]) {
-                    weightMonth[month] = 0;
-                }
-                weightMonth[month] += purchase.kg;
-            }
+            console.log(purchase.kg);
+            monthSpent += parseFloat(purchase.price);
         });
 
-        const monthWeight = {};
 
-        for (const month in weightMonth) {
-            monthWeight[months[month]] = weightMonth[month];
-        }
+        console.log(monthSpent.toFixed(2));
 
-        console.log(monthWeight);
-
-        return monthWeight;
     }
 }
 

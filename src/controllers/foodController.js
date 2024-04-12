@@ -11,10 +11,11 @@ class FoodController {
         }
     }
     
-    
+
     static async getFoods (req, res) {
         try {
             const listFoods = await food.find({});
+
             res.status(200).json(listFoods);
         } catch (error) {
             res.status(500).json({ message: `${error.message} - falha na requisição de rações.` })
