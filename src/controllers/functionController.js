@@ -46,77 +46,32 @@ class functionController {
         const year = `${today.getFullYear()}`;
     }
 
-    static async monthNumber() {
-        let nameMonth;
-        const purchases = await food.find({});
-
-        purchases.forEach((purchase) => {
-            const fullDate = new Date(purchase.date);
-            const month = fullDate.getDay() + 1;
-
-            if (month == 1) {
-                nameMonth == "janeiro"
-            } else if (month == 2) {
-                nameMonth == "fevereiro"
-            } else if (month == 3) {
-                nameMonth == "março"
-            } else if (month == 4) {
-                nameMonth == "abril"
-            } else if (month == 5) {
-                nameMonth == "maio"
-            } else if (month == 6) {
-                nameMonth == "junho"
-            } else if (month == 7) {
-                nameMonth == "julho"
-            } else if (month == 8) {
-                nameMonth == "agosto"
-            } else if (month == 9) {
-                nameMonth == "setembro"
-            } else if (month == 10) {
-                nameMonth == "outubro"
-            } else if (month == 11) {
-                nameMonth == "novembro"
-            } else if (month == 12) {
-                nameMonth == "dezembro"
-            }
-
-            return nameMonth
-        });
-    }
-
-    static async spentPerMonth(res) {
-
+    static async spentPerMonth(req, res) {
         try {
-
             const monthsArray = {};
             const purchases = await food.find({});
-            const sum = 0;
-
-
-
+    
             purchases.forEach((purchase) => {
                 const today = new Date(purchase.date);
-
-                const day = today.getDate();
-                const month = `${today.getDay() + 1}`;
-                const year = `${today.getFullYear()}`;
-
+                const month = today.getDay() + 1;
+                const year = today.getFullYear();
+    
                 if (!monthsArray[month]) {
                     monthsArray[month] = 0;
                 }
-                monthsArray[month]  += parseFloat(purchase.price);
-
-                
+                monthsArray[month] += parseFloat(purchase.price);
             });
-
-            console.log(monthsArray)
-
-            res.status(200).json(monthsArray)
+    
+            console.log(monthsArray);
+    
+            if (typeof res.status === 'function') {
+                res.status(200).json(monthsArray);
+            } else {
+                console.error("res.status não é uma função.");
+            }
         } catch (error) {
-
+            console.log(error);
         }
-
-
     }
 }
 
