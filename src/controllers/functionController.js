@@ -48,15 +48,19 @@ class functionController {
 
     static async spentPerMonth(req, res) {
         try {
-            const monthsArray = {};
+            const monthsArray = [];
             const purchases = await food.find({});
     
+            for (let i = 1; i <= 11; i++) {
+                monthsArray[i] = 0;
+            }
+
             purchases.forEach((purchase) => {
                 const today = new Date(purchase.date);
                 const month = today.getDay() + 1;
                 const year = today.getFullYear();
     
-                if (!monthsArray[month]) {
+                if (monthsArray[month] == null) {
                     monthsArray[month] = 0;
                 }
                 monthsArray[month] += parseFloat(purchase.price);
