@@ -46,27 +46,27 @@ class AuthController {
         });
 
         try {
-            
+
             await user.save();
-            res.status(201).json({msg: "Usuário criado com sucesso."})    
+            res.status(201).json({ msg: "Usuário criado com sucesso." })
 
         } catch (error) {
 
             console.log(error);
-            res.status(500).json({msg: "Aconteceu um erro no servidor, tente novamente mais tarde."});
+            res.status(500).json({ msg: "Aconteceu um erro no servidor, tente novamente mais tarde." });
         }
     }
 
     static async login(req, res) {
-        const {email, password} = req.body;
+        const { email, password } = req.body;
 
         if (!email) {
             return res.status(422).json({ msg: "O email é obrigatório." });
         }
-        if(!password) {
+        if (!password) {
             return res.status(422).json({ msg: "A senha é obrigatória." });
         }
-        
+
         const user = await User.findOne({ email: email });
 
         if (!user) {
@@ -81,9 +81,9 @@ class AuthController {
         if (!checkPassword) {
             return res.status(422).json({ msg: "Senha incorreta, verifique novamente." });
         }
-        
+
         try {
-            const secret = process.env.SECRET;  
+            const secret = process.env.SECRET;
             const token = jwt.sign(
                 {
                     id: user._id,
@@ -96,5 +96,19 @@ class AuthController {
             res.status(500).json({ msg: "Falha na autenticação." });
         }
     }
+
+    static async findUserById(req, res) {
+        const id = req.params.id;
+
+        const user = await User.findById(id, '-password');
+
+        if (!user) {
+            return res.status(404).json({ msg: "Usuário não encontrado." })
+        }
+        res.status(200).json({ user });
+
+    }
 }
+
+
 export default AuthController;
