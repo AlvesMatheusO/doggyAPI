@@ -1,4 +1,4 @@
-import food from "../models/food.js";
+import food from "../models/Food.js";
 
 class FoodController {
 
