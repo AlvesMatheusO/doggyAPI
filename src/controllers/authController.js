@@ -1,7 +1,9 @@
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
+import jwt from "jsonwebtoken";
 
 class AuthController {
+
     static async registerUser(req, res) {
 
 
@@ -52,6 +54,46 @@ class AuthController {
 
             console.log(error);
             res.status(500).json({msg: "Aconteceu um erro no servidor, tente novamente mais tarde."});
+        }
+    }
+
+    static async login(req, res) {
+        const {email, password} = req.body;
+
+        if (!email) {
+            return res.status(422).json({ msg: "O email é obrigatório." });
+        }
+        if(!password) {
+            return res.status(422).json({ msg: "A senha é obrigatória." });
+        }
+        
+        const user = await User.findOne({ email: email });
+
+        if (!user) {
+            return res.status(404).json({ msg: "Usuário não encontrado!" });
+        }
+
+        const checkPassword = await password == user.password;
+
+        console.log(password);
+        console.log(user.password);
+
+        if (!checkPassword) {
+            return res.status(422).json({ msg: "Senha incorreta, verifique novamente." });
+        }
+        
+        try {
+            const secret = process.env.SECRET;  
+            const token = jwt.sign(
+                {
+                    id: user._id,
+                },
+                secret,
+            )
+            res.status(200).json({ msg: "Autenticação realizada com sucesso.", token });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ msg: "Falha na autenticação." });
         }
     }
 }
