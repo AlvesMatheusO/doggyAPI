@@ -75,9 +75,6 @@ class AuthController {
 
         const checkPassword = await password == user.password;
 
-        console.log(password);
-        console.log(user.password);
-
         if (!checkPassword) {
             return res.status(422).json({ msg: "Senha incorreta, verifique novamente." });
         }
