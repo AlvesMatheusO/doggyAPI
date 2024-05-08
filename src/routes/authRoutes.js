@@ -9,6 +9,7 @@ const ROUTES = express.Router();
 ROUTES.post("/auth/register", authController.registerUser);
 ROUTES.post("/auth/user", authController.login);
 ROUTES.get("/user/:id", checkToken, authController.findUserById);
+ROUTES.delete("/auth/logout", checkToken, authController.logout);
 
 function checkToken(req, res, next) {
     const authHeader = req.headers['authorization'];
