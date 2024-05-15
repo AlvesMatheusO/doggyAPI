@@ -37,13 +37,6 @@ class functionController {
     }
   }
 
-  static async getDate() {
-    const today = new Date();
-
-    const day = today.getDate();
-    const month = `${today.getMonth() + 1}`;
-    const year = `${today.getFullYear()}`;
-  }
 
   static async spentPerMonth(req, res) {
     try {
