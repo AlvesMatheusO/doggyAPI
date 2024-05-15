@@ -104,12 +104,14 @@ class AuthController {
       );
       res
         .status(200)
-        .json({ msg: "Autenticação realizada com sucesso.", token });
+        .json({ msg: "Autenticação realizada com sucesso.", token});
+        console.log(user._id);
     } catch (error) {
       console.log(error);
       res.status(500).json({ msg: "Falha na autenticação." });
     }
   }
+  
 
   static async findUserById(req, res) {
     const id = req.params.id;

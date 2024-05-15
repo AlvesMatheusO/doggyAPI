@@ -47,11 +47,12 @@ class functionController {
     }
 
     static async spentPerMonth(req, res) {
+
         try {
             const monthsArray = [];
             const purchases = await food.find({});
     
-            for (let i = 1; i <= 11; i++) {
+            for (let i = 0; i <= 11; i++) {
                 monthsArray[i] = 0;
             }
 
