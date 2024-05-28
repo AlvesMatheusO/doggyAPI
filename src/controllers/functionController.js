@@ -19,6 +19,7 @@ class functionController {
     }
   }
 
+
   static async sumByPrice(req, res) {
     let sum = 0.0;
 

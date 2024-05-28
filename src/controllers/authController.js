@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
+import nodeMailer from 'nodemailer'
 
 class AuthController {
   static async registerUser(req, res) {
@@ -132,6 +133,51 @@ class AuthController {
     refreshTokens = refreshToken.filter((token) => token !== refreshToken);
     res.sendStatus(204);
   }
-}
+
+  static async recoverPassword(req, res) {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(422).json({ msg: "Email é obrigatório" });
+    }
+
+    try {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        return res.status(404).json({msg: "Usuário não encontrado"})
+      }
+      const verificationToken =  Math.random().toString(22).substring(2, 15);
+
+      const transporter = nodeMailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: 'Recuperação de senha Doggy',
+        text: `Use este código para recuperar sua senha: ${verificationToken}`,
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).send({ sucess: false, message: 'failed to send email.' })
+        } 
+        res.send({ sucess: true, message: 'verification sent' });
+      });
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ msg: "Ocorreu um erro no servidor. Tente novamente mais tarde." });
+    }
+
+    
+  }
+
+ }
 
 export default AuthController;
